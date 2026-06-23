@@ -117,4 +117,439 @@ body{font-family:'Segoe UI',sans-serif;background:#0a0e1a;color:#fff;min-height:
     <button class="btn-logout" onclick="doLogout()">Sair</button>
   </div>
   <div class="bottom-nav">
-    <button class="nav-btn active" onclick="irParaAba('dashboard')" id="nav-dashboard"><span class="
+    <button class="nav-btn active" onclick="irParaAba('dashboard')" id="nav-dashboard"><span class="nav-icon">📊</span>Dashboard</button>
+    <button class="nav-btn" onclick="irParaAba('jogos')" id="nav-jogos"><span class="nav-icon">⚽</span>Jogos</button>
+    <button class="nav-btn" onclick="irParaAba('bilhete')" id="nav-bilhete"><span class="nav-icon">🎫</span>Bilhete<span id="bilhete-count" class="badge" style="display:none">0</span></button>
+    <button class="nav-btn" onclick="irParaAba('historico')" id="nav-historico"><span class="nav-icon">📋</span>Histórico</button>
+    <button class="nav-btn" onclick="irParaAba('banca')" id="nav-banca"><span class="nav-icon">💰</span>Banca</button>
+    <button class="nav-btn" onclick="irParaAba('analise')" id="nav-analise"><span class="nav-icon">🔍</span>Análise</button>
+  </div>
+  <div class="tab-content active" id="aba-dashboard"><div style="padding:16px"><div class="section-title">📊 Dashboard</div><div class="dashboard-grid"><div class="stat-card"><div class="stat-label">Banca Atual</div><div class="stat-value" id="d-banca">R$ 0,00</div></div><div class="stat-card"><div class="stat-label">Lucro</div><div class="stat-value" id="d-lucro">R$ 0,00</div></div><div class="stat-card"><div class="stat-label">ROI</div><div class="stat-value" id="d-roi">0%</div></div><div class="stat-card"><div class="stat-label">Acerto</div><div class="stat-value" id="d-acerto">0%</div></div><div class="stat-card"><div class="stat-label">Apostas</div><div class="stat-value" id="d-total">0</div></div><div class="stat-card"><div class="stat-label">Yield</div><div class="stat-value" id="d-yield">0%</div></div></div><div class="section-title" style="margin-top:20px">📌 Perfil de Risco</div><div class="perfil-grid"><div class="perfil-opcao" id="p-cauteloso" onclick="setPerfil('cauteloso')"><div class="perfil-icon">🛡️</div><div><div class="perfil-nome">Cauteloso</div><div class="perfil-desc">Odds baixas, alta chance</div></div></div><div class="perfil-opcao" id="p-arriscado" onclick="setPerfil('arriscado')"><div class="perfil-icon">⚡</div><div><div class="perfil-nome">Arriscado</div><div class="perfil-desc">Odds médias</div></div></div><div class="perfil-opcao" id="p-super" onclick="setPerfil('super')"><div class="perfil-icon">🔥</div><div><div class="perfil-nome">Super Arriscado</div><div class="perfil-desc">Odds altas</div></div></div></div></div></div>
+  <div class="tab-content" id="aba-jogos"><div style="padding:16px"><div class="section-title">⚽ Jogos do Dia</div><div class="filtro-liga" id="filtroLiga"></div><div id="lista-jogos"></div></div></div>
+  <div class="tab-content" id="aba-bilhete"><div style="padding:16px"><div class="section-title">🎫 Meu Bilhete</div><div id="bilhete-lista"></div><div id="bilhete-resumo" style="display:none" class="bilhete-resumo"><div class="resumo-linha"><span>Jogos</span><span id="r-qtd">0</span></div><div class="resumo-linha"><span>Odd Total</span><span id="r-odd">1.00</span></div><div class="resumo-linha"><span>Risco</span><span id="r-risco">-</span></div><div class="resumo-linha"><span>Valor (R$)</span><input type="number" id="r-valor" placeholder="0,00" style="width:90px;padding:4px 8px;border-radius:8px;border:1px solid #1e2d4a;background:#0d1120;color:#fff;font-size:.85rem" oninput="atualizarResumo()"/></div><div class="resumo-linha" style="color:#00d4ff;font-weight:800"><span>Retorno</span><span id="r-retorno">R$ 0,00</span></div></div><div id="bilhete-acoes" style="display:none"><button class="btn-analisar" onclick="analisarBilhete()">🔍 Analisar Bilhete</button><button class="btn-limpar" onclick="limparBilhete()">🗑️ Limpar</button></div><div id="resultado-analise-bilhete" class="resultado-analise"></div><div id="bilhete-vazio" class="bilhete-vazio"><div class="icon">🎫</div><div>Bilhete vazio</div><div style="font-size:.8rem;margin-top:8px">Selecione jogos na aba Jogos</div></div></div></div>
+  <div class="tab-content" id="aba-historico"><div style="padding:16px"><div class="section-title">📋 Histórico</div><div class="filtros-historico"><button class="filtro-btn active" onclick="filtrarHistorico('hoje')">Hoje</button><button class="filtro-btn" onclick="filtrarHistorico('semana')">Semana</button><button class="filtro-btn" onclick="filtrarHistorico('mes')">Mês</button><button class="filtro-btn" onclick="filtrarHistorico('todos')">Todos</button></div><div id="historico-lista"></div></div></div>
+  <div class="tab-content" id="aba-banca"><div style="padding:16px"><div class="section-title">💰 Gestão de Banca</div><div class="config-item">abel>Banca Inicial (R$)</label><input type="number" id="bancaInicial" placeholder="500" oninput="calcularBanca()"/></div><div class="config-item">abel>Banca Atual (R$)</label><input type="number" id="bancaAtual" placeholder="520" oninput="calcularBanca()"/></div><div class="config-item">abel>Stop Win (R$)</label><input type="number" id="stopWin" placeholder="700"/></div><div class="config-item">abel>Stop Loss (R$)</label><input type="number" id="stopLoss" placeholder="400"/></div><button class="btn-salvar" onclick="salvarBanca()">💾 Salvar</button><div id="banca-resultado" class="bilhete-resumo" style="margin-top:16px;display:none"><div class="resumo-linha"><span>Lucro/Prejuízo</span><span id="b-lucro">R$ 0,00</span></div><div class="resumo-linha"><span>ROI</span><span id="b-roi">0%</span></div><div class="resumo-linha"><span>Yield</span><span id="b-yield">0%</span></div><div class="resumo-linha"><span>Stop Win</span><span id="b-stopwin-status">-</span></div><div class="resumo-linha"><span>Stop Loss</span><span id="b-stoploss-status">-</span></div></div></div></div>
+  <div class="tab-content" id="aba-analise"><div style="padding:16px"><div class="section-title">🔍 Análise de Bilhete</div><div class="analise-area"><h3>📷 Enviar Print</h3>abel class="upload-btn" for="uploadImg">📁 Selecionar imagem do bilhete</label><input type="file" id="uploadImg" accept="image/*" style="display:none" onchange="processarOCR(event)"/><div id="ocr-preview" style="display:none;margin-bottom:12px"><img id="ocr-img" style="width:100%;border-radius:12px;border:1px solid #1e2d4a;margin-bottom:8px"/><div id="ocr-status" style="font-size:.8rem;color:#8899aa;text-align:center"></div></div><div id="ocr-texto" style="display:none;width:100%;padding:12px;border-radius:12px;border:1.5px solid #00d4ff33;background:#0d1120;color:#ccc;font-size:.8rem;white-space:pre-wrap;margin-bottom:12px;min-height:60px"></div></div><div class="analise-area"><h3>✍️ Analisar por Texto</h3><p style="font-size:.8rem;color:#8899aa;margin-bottom:12px">Cole o texto do bilhete ou descreva as apostas com as odds:</p><textarea class="analise-input" id="textoAnalise" placeholder="Ex: Flamengo vence @1.85&#10;Over 2.5 gols @1.70&#10;Ambas marcam @1.60"></textarea><button class="btn-analisar" onclick="analisarTexto()">🔍 Analisar Texto</button></div><div id="resultado-analise-ocr" class="resultado-analise"></div></div></div>
+</div>
+
+<script>
+// ============================================================
+// DADOS MOCKADOS - 20 partidas
+// ============================================================
+var JOGOS_MOCK=
+[
+  {id:1,liga:"Brasileirao Serie A",liga_icon:"🇧🇷",casa:{nome:"Flamengo",b:"🔴⚫"},fora:{nome:"Palmeiras",b:"💚"},hora:"16:00",odds:{casa:2.10,empate:3.20,fora:3.50}},
+  {id:2,liga:"Brasileirao Serie A",liga_icon:"🇧🇷",casa:{nome:"Corinthians",b:"⚫⚪"},fora:{nome:"Sao Paulo",b:"🔴⚪"},hora:"19:00",odds:{casa:2.40,empate:3.10,fora:2.90}},
+  {id:3,liga:"Brasileirao Serie A",liga_icon:"🇧🇷",casa:{nome:"Atletico-MG",b:"⚫🔴"},fora:{nome:"Cruzeiro",b:"💙"},hora:"21:00",odds:{casa:1.90,empate:3.40,fora:4.00}},
+  {id:4,liga:"Brasileirao Serie A",liga_icon:"🇧🇷",casa:{nome:"Gremio",b:"🔵⚫"},fora:{nome:"Internacional",b:"🔴⚪"},hora:"18:30",odds:{casa:2.20,empate:3.15,fora:3.30}},
+  {id:5,liga:"Brasileirao Serie A",liga_icon:"🇧🇷",casa:{nome:"Fluminense",b:"🔴🟢"},fora:{nome:"Botafogo",b:"⚫⚪"},hora:"20:00",odds:{casa:2.50,empate:3.00,fora:2.80}},
+  {id:6,liga:"Copa do Brasil",liga_icon:"🏆",casa:{nome:"Bahia",b:"🔵🔴"},fora:{nome:"Fortaleza",b:"🔴🔵"},hora:"19:30",odds:{casa:2.30,empate:3.20,fora:3.00}},
+  {id:7,liga:"Copa do Brasil",liga_icon:"🏆",casa:{nome:"Santos",b:"⚪⚫"},fora:{nome:"Vasco",b:"⚫⚪"},hora:"21:30",odds:{casa:2.10,empate:3.10,fora:3.40}},
+  {id:8,liga:"Copa do Mundo 2026",liga_icon:"🌍",casa:{nome:"Brasil",b:"🇧🇷"},fora:{nome:"Argentina",b:"🇦🇷"},hora:"15:00",odds:{casa:2.60,empate:3.20,fora:2.70}},
+  {id:9,liga:"Copa do Mundo 2026",liga_icon:"🌍",casa:{nome:"Franca",b:"🇫🇷"},fora:{nome:"Espanha",b:"🇪🇸"},hora:"18:00",odds:{casa:2.30,empate:3.30,fora:3.00}},
+  {id:10,liga:"Copa do Mundo 2026",liga_icon:"🌍",casa:{nome:"Alemanha",b:"🇩🇪"},fora:{nome:"Portugal",b:"🇵🇹"},hora:"21:00",odds:{casa:2.10,empate:3.40,fora:3.50}},
+  {id:11,liga:"Copa do Mundo 2026",liga_icon:"🌍",casa:{nome:"Inglaterra",b:"🏴"},fora:{nome:"Italia",b:"🇮🇹"},hora:"17:00",odds:{casa:1.95,empate:3.50,fora:3.80}},
+  {id:12,liga:"Copa do Mundo 2026",liga_icon:"🌍",casa:{nome:"Holanda",b:"🇳🇱"},fora:{nome:"Belgica",b:"🇧🇪"},hora:"20:00",odds:{casa:2.00,empate:3.30,fora:3.60}},
+  {id:13,liga:"Premier League",liga_icon:"🏴",casa:{nome:"Liverpool",b:"❤️"},fora:{nome:"Chelsea",b:"💙"},hora:"13:30",odds:{casa:1.85,empate:3.60,fora:4.50}},
+  {id:14,liga:"Premier League",liga_icon:"🏴",casa:{nome:"Man City",b:"🩵"},fora:{nome:"Arsenal",b:"🔴"},hora:"16:00",odds:{casa:1.75,empate:3.80,fora:4.80}},
+  {id:15,liga:"La Liga",liga_icon:"🇪🇸",casa:{nome:"Real Madrid",b:"⚪🟡"},fora:{nome:"Barcelona",b:"🔴🔵"},hora:"20:00",odds:{casa:2.00,empate:3.40,fora:3.70}},
+  {id:16,liga:"La Liga",liga_icon:"🇪🇸",casa:{nome:"Atletico Madrid",b:"🔴⚪"},fora:{nome:"Sevilla",b:"⚪🔴"},hora:"17:00",odds:{casa:1.90,empate:3.30,fora:4.20}},
+  {id:17,liga:"Ligue 1",liga_icon:"🇫🇷",casa:{nome:"PSG",b:"🔵🔴"},fora:{nome:"Marseille",b:"🔵⚪"},hora:"20:45",odds:{casa:1.60,empate:4.00,fora:5.50}},
+  {id:18,liga:"Champions League",liga_icon:"⭐",casa:{nome:"Bayern",b:"🔴⚪"},fora:{nome:"Inter",b:"🔵⚫"},hora:"21:00",odds:{casa:1.80,empate:3.70,fora:4.60}},
+  {id:19,liga:"Champions League",liga_icon:"⭐",casa:{nome:"Dortmund",b:"🟡⚫"},fora:{nome:"Juventus",b:"⚫⚪"},hora:"21:00",odds:{casa:2.10,empate:3.20,fora:3.50}},
+  {id:20,liga:"Libertadores",liga_icon:"🌎",casa:{nome:"Boca Juniors",b:"🔵🟡"},fora:{nome:"River Plate",b:"⚪🔴"},hora:"21:30",odds:{casa:2.40,empate:3.10,fora:3.00}}
+];
+
+var bilhete=JSON.parse(localStorage.getItem('bp_bilhete')||'[]');
+var perfilAtual=localStorage.getItem('bp_perfil')||'cauteloso';
+var ligaFiltro='Todos';
+var filtroHistoricoAtual='todos';
+
+function doLogin(){
+  var email=document.getElementById('loginEmail').value.trim();
+  var pass=document.getElementById('loginPass').value;
+  if(!email){alert('Digite seu e-mail');return;}
+  if(!pass){alert('Digite sua senha');return;}
+  if(email==='admin@bp.com'&&pass==='123456'){
+    var token=btoa(JSON.stringify({user:email,exp:Date.now()+86400000}));
+    localStorage.setItem('bp_token',token);
+    localStorage.setItem('bp_user',email);
+    iniciarApp(email);
+  }else{alert('E-mail ou senha incorretos.\nUse: admin@bp.com / 123456');}
+}
+
+function doLogout(){
+  localStorage.removeItem('bp_token');
+  document.getElementById('loginArea').style.display='flex';
+  document.getElementById('appMain').style.display='none';
+}
+
+function iniciarApp(user){
+  document.getElementById('loginArea').style.display='none';
+  document.getElementById('appMain').style.display='block';
+  document.getElementById('nomeUsuario').textContent=user.split('@')[0];
+  perfilAtual=localStorage.getItem('bp_perfil')||'cauteloso';
+  setPerfil(perfilAtual,false);
+  carregarDashboard();
+  carregarJogos();
+  renderizarBilhete();
+  carregarHistorico('todos');
+  carregarBanca();
+}
+
+window.onload=function(){
+  var token=localStorage.getItem('bp_token');
+  var user=localStorage.getItem('bp_user');
+  if(token&&user){try{var d=JSON.parse(atob(token));if(d.exp>Date.now()){iniciarApp(user);return;}}catch(e){}}
+  document.getElementById('loginArea').style.display='flex';
+};
+
+document.addEventListener('keydown',function(e){
+  if(e.key==='Enter'){var la=document.getElementById('loginArea');if(la&&la.style.display!=='none')doLogin();}
+});
+
+function irParaAba(aba){
+  document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('aba-'+aba).classList.add('active');
+  document.getElementById('nav-'+aba).classList.add('active');
+  if(aba==='dashboard')carregarDashboard();
+  if(aba==='historico')carregarHistorico(filtroHistoricoAtual);
+}
+
+function setPerfil(perfil,salvar){
+  if(salvar===undefined)salvar=true;
+  perfilAtual=perfil;
+  if(salvar)localStorage.setItem('bp_perfil',perfil);
+  document.querySelectorAll('.perfil-opcao').forEach(function(p){p.classList.remove('active');});
+  var el=document.getElementById('p-'+perfil);
+  if(el)el.classList.add('active');
+}
+
+function carregarDashboard(){
+  var hist=JSON.parse(localStorage.getItem('bp_historico')||'[]');
+  var bancaI=parseFloat(localStorage.getItem('bp_banca_inicial')||'0');
+  var bancaA=parseFloat(localStorage.getItem('bp_banca_atual')||'0');
+  var total=hist.length;
+  var ganhas=hist.filter(function(h){return h.resultado==='green';}).length;
+  var lucro=hist.reduce(function(acc,h){return acc+(h.lucro||0);},0);
+  var totalInv=hist.reduce(function(acc,h){return acc+(h.valor||0);},0);
+  var acerto=total>0?((ganhas/total)*100).toFixed(1):0;
+  var roi=bancaI>0?(((bancaA-bancaI)/bancaI)*100).toFixed(1):0;
+  var yieldVal=totalInv>0?((lucro/totalInv)*100).toFixed(1):0;
+  document.getElementById('d-banca').textContent='R$ '+(bancaA||0).toFixed(2).replace('.',',');
+  document.getElementById('d-lucro').textContent=(lucro>=0?'+':'')+'R$ '+lucro.toFixed(2).replace('.',',');
+  document.getElementById('d-roi').textContent=roi+'%';
+  document.getElementById('d-acerto').textContent=acerto+'%';
+  document.getElementById('d-total').textContent=total;
+  document.getElementById('d-yield').textContent=yieldVal+'%';
+}
+
+function carregarJogos(){
+  var ligas=['Todos'];
+  JOGOS_MOCK.forEach(function(j){if(ligas.indexOf(j.liga)===-1)ligas.push(j.liga);});
+  var filtroDiv=document.getElementById('filtroLiga');
+  filtroDiv.innerHTML='';
+  ligas.forEach(function(liga){
+    var btn=document.createElement('button');
+    btn.className='filtro-btn'+(liga===ligaFiltro?' active':'');
+    btn.textContent=liga==='Todos'?'🌍 Todos':liga;
+    btn.onclick=function(){filtrarLiga(liga);};
+    filtroDiv.appendChild(btn);
+  });
+  renderizarJogos();
+}
+
+function filtrarLiga(liga){
+  ligaFiltro=liga;
+  document.querySelectorAll('#filtroLiga .filtro-btn').forEach(function(b){
+    b.classList.toggle('active',(b.textContent==='🌍 Todos'&&liga==='Todos')||(b.textContent===liga));
+  });
+  renderizarJogos();
+}
+
+function isSel(jogoId,mercado){
+  return bilhete.some(function(b){return b.jogoId===jogoId&&b.mercado===mercado;})?'selecionado':'';
+}
+
+function renderizarJogos(){
+  var lista=document.getElementById('lista-jogos');
+  var jogos=ligaFiltro==='Todos'?JOGOS_MOCK:JOGOS_MOCK.filter(function(j){return j.liga===ligaFiltro;});
+  if(jogos.length===0){lista.innerHTML='<div class="bilhete-vazio"><div class="icon">⚽</div><div>Nenhum jogo encontrado</div></div>';return;}
+  lista.innerHTML=jogos.map(function(j){
+    return '<div class="jogo-card">'+
+      '<div class="jogo-liga">'+j.liga_icon+' '+j.liga+'</div>'+
+      '<div class="jogo-times">'+
+        '<div class="time-info"><div class="time-bandeira">'+j.casa.b+'</div><div class="time-nome">'+j.casa.nome+'</div></div>'+
+        '<div class="jogo-vs">VS</div>'+
+        '<div class="time-info"><div class="time-bandeira">'+j.fora.b+'</div><div class="time-nome">'+j.fora.nome+'</div></div>'+
+      '</div>'+
+      '<div style="text-align:center"><span class="jogo-hora">⏰ '+j.hora+'</span></div>'+
+      '<div class="jogo-odds">'+
+        '<div class="odd-btn '+isSel(j.id,'casa')+'" onclick="selecionarOdd('+j.id+',\'casa\','+j.odds.casa+')"><span class="odd-label">Casa</span><span class="odd-valor">'+j.odds.casa.toFixed(2)+'</span></div>'+
+        '<div class="odd-btn '+isSel(j.id,'empate')+'" onclick="selecionarOdd('+j.id+',\'empate\','+j.odds.empate+')"><span class="odd-label">Empate</span><span class="odd-valor">'+j.odds.empate.toFixed(2)+'</span></div>'+
+        '<div class="odd-btn '+isSel(j.id,'fora')+'" onclick="selecionarOdd('+j.id+',\'fora\','+j.odds.fora+')"><span class="odd-label">Fora</span><span class="odd-valor">'+j.odds.fora.toFixed(2)+'</span></div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function selecionarOdd(jogoId,mercado,oddValor){
+  var jogo=JOGOS_MOCK.find(function(j){return j.id===jogoId;});
+  if(!jogo)return;
+  var idx=bilhete.findIndex(function(b){return b.jogoId===jogoId;});
+  if(idx!==-1){
+    if(bilhete[idx].mercado===mercado){bilhete.splice(idx,1);}
+    else{bilhete[idx].mercado=mercado;bilhete[idx].odd=oddValor;bilhete[idx].mercadoLabel=getLbl(mercado,jogo);}
+  }else{
+    bilhete.push({jogoId:jogoId,jogo:jogo.casa.nome+' x '+jogo.fora.nome,liga:jogo.liga,mercado:mercado,mercadoLabel:getLbl(mercado,jogo),odd:oddValor});
+  }
+  localStorage.setItem('bp_bilhete',JSON.stringify(bilhete));
+  atualizarBadge();
+  renderizarBilhete();
+  renderizarJogos();
+}
+
+function getLbl(m,j){
+  if(m==='casa')return j.casa.nome+' vence';
+  if(m==='empate')return 'Empate';
+  return j.fora.nome+' vence';
+}
+
+function renderizarBilhete(){
+  var lista=document.getElementById('bilhete-lista');
+  var resumo=document.getElementById('bilhete-resumo');
+  var acoes=document.getElementById('bilhete-acoes');
+  var vazio=document.getElementById('bilhete-vazio');
+  if(bilhete.length===0){lista.innerHTML='';resumo.style.display='none';acoes.style.display='none';vazio.style.display='block';atualizarBadge();return;}
+  vazio.style.display='none';resumo.style.display='block';acoes.style.display='block';
+  lista.innerHTML=bilhete.map(function(b,i){
+    return '<div class="aposta-item">'+
+      '<div class="aposta-info"><div class="aposta-jogo">⚽ '+b.jogo+'</div><div class="aposta-mercado">'+b.mercadoLabel+'</div><div style="font-size:.7rem;color:#7b2ff7;margin-top:3px">'+b.liga+'</div></div>'+
+      '<div style="display:flex;align-items:center;gap:8px"><div class="aposta-odd">'+parseFloat(b.odd).toFixed(2)+'</div><button class="aposta-remove" onclick="removerAposta('+i+')">✕</button></div>'+
+    '</div>';
+  }).join('');
+  atualizarResumo();
+  atualizarBadge();
+}
+
+function atualizarResumo(){
+  var oddTotal=bilhete.reduce(function(acc,b){return acc*parseFloat(b.odd);},1);
+  var valor=parseFloat(document.getElementById('r-valor').value||0);
+  document.getElementById('r-qtd').textContent=bilhete.length;
+  document.getElementById('r-odd').textContent=oddTotal.toFixed(2);
+  var risco=getRisco(oddTotal);
+  var el=document.getElementById('r-risco');
+  el.textContent=risco.label;el.style.color=risco.cor;
+  document.getElementById('r-retorno').textContent=valor>0?'R$ '+(oddTotal*valor).toFixed(2).replace('.',','):'R$ 0,00';
+}
+
+function getRisco(odd){
+  if(odd<3)return{label:'🟢 Risco Baixo',cor:'#00ff88'};
+  if(odd<=8)return{label:'🟡 Risco Medio',cor:'#ffcc00'};
+  return{label:'🔴 Risco Alto',cor:'#ff4466'};
+}
+
+function removerAposta(i){bilhete.splice(i,1);localStorage.setItem('bp_bilhete',JSON.stringify(bilhete));renderizarBilhete();renderizarJogos();}
+
+function limparBilhete(){
+  if(!bilhete.length)return;
+  if(!confirm('Limpar o bilhete?'))return;
+  bilhete=[];localStorage.setItem('bp_bilhete','[]');
+  renderizarBilhete();renderizarJogos();
+  document.getElementById('resultado-analise-bilhete').classList.remove('show');
+}
+
+function atualizarBadge(){
+  var b=document.getElementById('bilhete-count');
+  if(bilhete.length>0){b.textContent=bilhete.length;b.style.display='flex';}else{b.style.display='none';}
+}
+
+function analisarBilhete(){
+  if(!bilhete.length){alert('Adicione apostas ao bilhete!');return;}
+  var oddTotal=bilhete.reduce(function(acc,b){return acc*parseFloat(b.odd);},1);
+  var qtd=bilhete.length;
+  var valor=parseFloat(document.getElementById('r-valor').value||0);
+  var r=motorAnalise(oddTotal,qtd,valor);
+  var div=document.getElementById('resultado-analise-bilhete');
+  div.innerHTML=gerarHTML(r,bilhete);
+  div.classList.add('show');
+  salvarHistorico(oddTotal,qtd,valor,r);
+}
+
+function motorAnalise(oddTotal,qtd,valor){
+  var risco,confianca,corRisco,iconeRisco;
+  if(oddTotal<3){risco='Baixo';confianca=Math.max(85-(qtd*4),55);corRisco='#00ff88';iconeRisco='🟢';}
+  else if(oddTotal<=8){risco='Medio';confianca=Math.max(72-(qtd*5),35);corRisco='#ffcc00';iconeRisco='🟡';}
+  else{risco='Alto';confianca=Math.max(45-(qtd*5),10);corRisco='#ff4466';iconeRisco='🔴';}
+  if(qtd>5)confianca=Math.max(confianca-((qtd-5)*3),8);
+  var retorno=valor>0?(oddTotal*valor):0;
+  var lucro=retorno-valor;
+  var rec,recCor;
+  if(confianca>=70){rec='✅ Aposta recomendada';recCor='#00ff88';}
+  else if(confianca>=45){rec='⚠️ Aceitavel com cautela';recCor='#ffcc00';}
+  else{rec='❌ Alto risco — reduza o bilhete';recCor='#ff4466';}
+  var dicas=[];
+  if(qtd>6)dicas.push({i:'⚠️',t:'Muitos jogos ('+qtd+'). Cada jogo reduz a probabilidade de acerto.'});
+  if(oddTotal>15)dicas.push({i:'🎰',t:'Odd total muito alta ('+oddTotal.toFixed(2)+'x). Probabilidade de ganho: '+(100/oddTotal).toFixed(1)+'%.'});
+  if(risco==='Baixo')dicas.push({i:'🛡️',t:'Perfil conservador: odds baixas indicam favoritos. Bom para preservar banca.'});
+  if(risco==='Medio')dicas.push({i:'⚡',t:'Risco moderado. Aposte no maximo 3-5% da sua banca.'});
+  if(risco==='Alto')dicas.push({i:'🔥',t:'Risco alto. Aposte no maximo 1-2% da banca. Nunca arrisque o que nao pode perder.'});
+  if(qtd>=3&&qtd<=5&&oddTotal<=8)dicas.push({i:'💡',t:'Combinacao equilibrada! 3 a 5 jogos com odds moderadas e ideal.'});
+  if(qtd===1)dicas.push({i:'🎯',t:'Aposta simples: maior controle do risco. Ideal para iniciantes.'});
+  if(!dicas.length)dicas.push({i:'📊',t:'Gerencie sua banca com disciplina e pesquise os jogos antes de apostar.'});
+  return{risco,confianca,corRisco,iconeRisco,rec,recCor,retorno,lucro,dicas,oddTotal,qtd};
+}
+
+function gerarHTML(r,apostas){
+  var bw=Math.min(r.confianca,100);
+  var bc=r.confianca>=70?'#00ff88':r.confianca>=45?'#ffcc00':'#ff4466';
+  var lista=apostas?apostas.map(function(a){return '<div class="analise-item"><span>⚽</span><span><strong>'+a.jogo+'</strong> — '+a.mercadoLabel+' @ <strong style="color:#00d4ff">'+parseFloat(a.odd).toFixed(2)+'</strong></span></div>';}).join(''):'';
+  var dicas=r.dicas.map(function(d){return '<div class="analise-item"><span>'+d.i+'</span><span>'+d.t+'</span></div>';}).join('');
+  return '<div class="analise-secao"><h4>📊 Resultado</h4>'+
+    '<div class="analise-item"><span>'+r.iconeRisco+'</span><div style="flex:1"><div><strong>Risco:</strong> <span style="color:'+r.corRisco+';font-weight:800">'+r.risco+'</span></div><div style="margin-top:4px"><strong>Odd Total:</strong> '+parseFloat(r.oddTotal).toFixed(2)+'x | <strong>Jogos:</strong> '+r.qtd+'</div></div></div>'+
+    '<div class="analise-item"><span>🎯</span><div style="flex:1"><div><strong>Confianca:</strong> <span style="color:'+bc+';font-weight:800">'+r.confianca+'%</span></div><div class="nivel-bar"><div class="nivel-fill" style="width:'+bw+'%;background:'+bc+'"></div></div></div></div>'+
+    '<div class="analise-item"><span>💬</span><div><strong>Recomendacao:</strong> <span style="color:'+r.recCor+'">'+r.rec+'</span></div></div>'+
+    (r.retorno>0?'<div class="analise-item"><span>💰</span><div><strong>Retorno:</strong> <span style="color:#00d4ff;font-weight:800">R$ '+r.retorno.toFixed(2)+'</span> (Lucro: R$ '+r.lucro.toFixed(2)+')</div></div>':'')+
+    '</div>'+
+    (lista?'<div class="analise-secao"><h4>🎫 Selecoes</h4>'+lista+'</div>':'')+
+    '<div class="analise-secao"><h4>💡 Dicas do Coach</h4>'+dicas+'</div>';
+}
+
+function salvarHistorico(oddTotal,qtd,valor,r){
+  var hist=JSON.parse(localStorage.getItem('bp_historico')||'[]');
+  hist.push({data:new Date().toISOString(),jogos:qtd,oddTotal:oddTotal.toFixed(2),valor:valor,lucro:r.lucro,resultado:'pending'});
+  localStorage.setItem('bp_historico',JSON.stringify(hist));
+}
+
+function carregarBanca(){
+  var bi=localStorage.getItem('bp_banca_inicial')||'';
+  var ba=localStorage.getItem('bp_banca_atual')||'';
+  if(bi)document.getElementById('bancaInicial').value=bi;
+  if(ba)document.getElementById('bancaAtual').value=ba;
+  var sw=localStorage.getItem('bp_stop_win')||'';
+  var sl=localStorage.getItem('bp_stop_loss')||'';
+  if(sw)document.getElementById('stopWin').value=sw;
+  if(sl)document.getElementById('stopLoss').value=sl;
+  if(bi&&ba)calcularBanca();
+}
+
+function calcularBanca(){
+  var bi=parseFloat(document.getElementById('bancaInicial').value)||0;
+  var ba=parseFloat(document.getElementById('bancaAtual').value)||0;
+  if(!bi||!ba)return;
+  var lucro=ba-bi;
+  var roi=((lucro/bi)*100).toFixed(2);
+  var hist=JSON.parse(localStorage.getItem('bp_historico')||'[]');
+  var tInv=hist.reduce(function(a,h){return a+(h.valor||0);},0);
+  var tLuc=hist.reduce(function(a,h){return a+(h.lucro||0);},0);
+  var y=tInv>0?((tLuc/tInv)*100).toFixed(2):'0.00';
+  var sw=parseFloat(document.getElementById('stopWin').value)||0;
+  var sl=parseFloat(document.getElementById('stopLoss').value)||0;
+  document.getElementById('b-lucro').textContent=(lucro>=0?'+':'')+'R$ '+lucro.toFixed(2).replace('.',',');
+  document.getElementById('b-lucro').style.color=lucro>=0?'#00ff88':'#ff4466';
+  document.getElementById('b-roi').textContent=roi+'%';
+  document.getElementById('b-yield').textContent=y+'%';
+  document.getElementById('b-stopwin-status').textContent=sw?(ba>=sw?'✅ Meta atingida!':'Faltam R$ '+(sw-ba).toFixed(2)):'-';
+  document.getElementById('b-stoploss-status').textContent=sl?(ba<=sl?'🛑 STOP LOSS!':'Margem: R$ '+(ba-sl).toFixed(2)):'-';
+  document.getElementById('banca-resultado').style.display='block';
+}
+
+function salvarBanca(){
+  var bi=document.getElementById('bancaInicial').value;
+  var ba=document.getElementById('bancaAtual').value;
+  if(!bi||!ba){alert('Preencha banca inicial e atual');return;}
+  localStorage.setItem('bp_banca_inicial',bi);
+  localStorage.setItem('bp_banca_atual',ba);
+  localStorage.setItem('bp_stop_win',document.getElementById('stopWin').value);
+  localStorage.setItem('bp_stop_loss',document.getElementById('stopLoss').value);
+  calcularBanca();
+  alert('✅ Banca salva!');
+  carregarDashboard();
+}
+
+function carregarHistorico(filtro){
+  filtroHistoricoAtual=filtro;
+  document.querySelectorAll('.filtros-historico .filtro-btn').forEach(function(b){
+    b.classList.toggle('active',b.textContent.toLowerCase()===filtro||(filtro==='todos'&&b.textContent==='Todos'));
+  });
+  var hist=JSON.parse(localStorage.getItem('bp_historico')||'[]');
+  var agora=new Date();
+  var filtrados=hist.filter(function(h){
+    var d=new Date(h.data);
+    if(filtro==='hoje')return d.toDateString()===agora.toDateString();
+    if(filtro==='semana'){var s=new Date(agora);s.setDate(s.getDate()-7);return d>=s;}
+    if(filtro==='mes'){var m=new Date(agora);m.setMonth(m.getMonth()-1);return d>=m;}
+    return true;
+  });
+  var lista=document.getElementById('historico-lista');
+  if(!filtrados.length){lista.innerHTML='<div class="bilhete-vazio"><div class="icon">📋</div><div>Nenhuma aposta encontrada</div></div>';return;}
+  lista.innerHTML=filtrados.reverse().map(function(h){
+    var cor=h.resultado==='green'?'#00ff88':h.resultado==='red'?'#ff4466':'#ffcc00';
+    var res=h.resultado==='green'?'✅ Ganhou':h.resultado==='red'?'❌ Perdeu':'⏳ Pendente';
+    var cls=h.resultado==='green'?'resultado-green':h.resultado==='red'?'resultado-red':'resultado-pending';
+    return '<div class="historico-card">'+
+      '<div class="historico-header"><span class="historico-data">📅 '+new Date(h.data).toLocaleDateString('pt-BR')+'</span><span class="historico-resultado '+cls+'">'+res+'</span></div>'+
+      '<div style="font-size:.85rem;color:#ccd">🎲 '+h.jogos+' jogo(s) · Odd: <strong>'+parseFloat(h.oddTotal).toFixed(2)+'</strong></div>'+
+      '<div style="font-size:.85rem;color:#ccd">💰 Apostado: R$ '+parseFloat(h.valor||0).toFixed(2)+'</div>'+
+      '<div style="font-size:.9rem;font-weight:700;margin-top:6px;color:'+cor+'">'+
+        (h.resultado==='green'?'+R$ '+parseFloat(h.lucro||0).toFixed(2):h.resultado==='red'?'-R$ '+parseFloat(h.valor||0).toFixed(2):'⏳ Aguardando resultado')+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function filtrarHistorico(tipo){
+  document.querySelectorAll('.filtros-historico .filtro-btn').forEach(function(b){b.classList.remove('active');});
+  event.target.classList.add('active');
+  carregarHistorico(tipo);
+}
+
+async function processarOCR(ev){
+  var file=ev.target.files[0];if(!file)return;
+  var prev=document.getElementById('ocr-preview');
+  var img=document.getElementById('ocr-img');
+  var status=document.getElementById('ocr-status');
+  var textoDiv=document.getElementById('ocr-texto');
+  var res=document.getElementById('resultado-analise-ocr');
+  img.src=URL.createObjectURL(file);
+  prev.style.display='block';
+  status.textContent='🔍 Processando OCR...';
+  textoDiv.style.display='none';
+  res.classList.remove('show');
+  try{
+    var result=await Tesseract.recognize(file,'por+eng',{logger:function(m){if(m.status==='recognizing text')status.textContent='🔍 Reconhecendo: '+Math.round(m.progress*100)+'%';}});
+    var text=result.data.text;
+    status.textContent='✅ OCR concluido!';
+    textoDiv.style.display='block';
+    textoDiv.textContent=text.trim()||'Nenhum texto detectado.';
+    if(text.trim().length>10)analisarTextoExtraido(text,res);
+  }catch(e){status.textContent='❌ Erro ao processar imagem.';}
+}
+
+function analisarTexto(){
+  var texto=document.getElementById('textoAnalise').value.trim();
+  if(!texto){alert('Digite o texto do bilhete!');return;}
+  analisarTextoExtraido(texto,document.getElementById('resultado-analise-ocr'));
+}
+
+function analisarTextoExtraido(texto,resEl){
+  var odds=[];
+  var rx=/@(\d+[.,]\d{2})/g;var m;
+  while((m=rx.exec(texto))!==null){var v=parseFloat(m[1].replace(',','.'));if(v>=1.01&&v<=50)odds.push(v);}
+  var qtd=odds.length>0?odds.length:Math.max(1,Math.min(texto.split('\n').filter(function(l){return l.trim().length>3;}).length,10));
+  var oddTotal=odds.length>0?odds.reduce(function(a,b){return a*b;},1):2.0;
+  var rxVal=/r\$\s*(\d+[.,]?\d*)/i;var mv=texto.match(rxVal);
+  var valor=mv?parseFloat(mv[1].replace(',','.')):0;
+  var r=motorAnalise(oddTotal,qtd,valor);
+  var apostas=odds.map(function(o,i){return{jogo:'Jogo '+(i+1)+' (detectado)',mercadoLabel:'Selecao '+(i+1),odd:o};});
+  var detectInfo='<div style="margin-bottom:12px;padding:10px;background:#131929;border-radius:10px;border:1px solid #1e2d4a">'+
+    '<div style="font-size:.75rem;color:#8899aa;margin-bottom:6px">📝 Texto analisado</div>'+
+    '<div style="font-size:.75rem;color:#7b2ff7">'+(odds.length>0?'✅ Detectadas <strong>'+odds.length+'</strong> odds: <strong style="color:#00d4ff">'+odds.map(function(o){return o.toFixed(2);}).join(' × ')+'</strong>':'⚠️ Odds nao detectadas. Analise baseada no conteudo geral.')+'</div>'+
+  '</div>';
+  resEl.innerHTML=detectInfo+gerarHTML(r,apostas);
+  resEl.classList.add('show');
+}
+</script>
+</body>
+</html>
