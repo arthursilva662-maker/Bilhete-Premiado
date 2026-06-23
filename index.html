@@ -1,0 +1,325 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-title" content="Bilhete Premiado"/><title>Bilhete Premiado</title><script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script><style>:root{--bg:#0d1117;--card:#161b22;--border:#30363d;--green:#00ff87;--yellow:#ffd700;--red:#ff4d4d;--blue:#58a6ff;--text:#e6edf3;--muted:#8b949e}*{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}.app{max-width:480px;margin:0 auto;padding-bottom:80px}header{background:var(--card);border-bottom:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}header h1{font-size:17px;font-weight:700;color:var(--green)}.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--card);border-top:1px solid var(--border);display:flex;z-index:100}.nav button{flex:1;padding:10px 4px;background:none;border:none;color:var(--muted);font-size:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;transition:color .2s}.nav button.active{color:var(--green)}.screen{display:none;padding:14px}.screen.active{display:block}.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px}.card h3{font-size:12px;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}.btn{padding:10px 16px;border-radius:8px;border:none;cursor:pointer;font-size:14px;font-weight:600;width:100%;margin-top:8px;transition:opacity .2s}.btn:active{opacity:.7}.btn-green{background:var(--green);color:#000}.btn-blue{background:var(--blue);color:#000}.btn-red{background:var(--red);color:#fff}.btn-outline{background:none;border:1px solid var(--border);color:var(--text)}.btn-sm{padding:7px 12px;font-size:12px;margin-top:6px}input,textarea{width:100%;padding:9px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;margin-top:6px}input:focus,textarea:focus{outline:none;border-color:var(--blue)}label{font-size:12px;color:var(--muted);margin-top:10px;display:block}.match-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px}.match-teams{font-size:14px;font-weight:700;text-align:center;margin-bottom:6px}.match-info{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:10px}.odds-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px}.odd-btn{flex:1;min-width:75px;padding:7px 4px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:11px;cursor:pointer;text-align:center;transition:all .2s}.odd-btn.selected{border-color:var(--green);background:#00ff8722;color:var(--green)}.odd-label{font-size:9px;color:var(--muted)}.odd-value{font-size:13px;font-weight:700}.odd-house{font-size:9px;color:var(--yellow)}.mode-tabs{display:flex;gap:6px;margin-bottom:14px}.mode-tab{flex:1;padding:8px 4px;border-radius:8px;border:1px solid var(--border);background:none;color:var(--muted);font-size:10px;cursor:pointer;text-align:center;transition:all .2s}.mode-tab.active-green{border-color:var(--green);background:#00ff8722;color:var(--green)}.mode-tab.active-yellow{border-color:var(--yellow);background:#ffd70022;color:var(--yellow)}.mode-tab.active-red{border-color:var(--red);background:#ff4d4d22;color:var(--red)}.sugg-box{background:#0a0d12;border:1px solid var(--border);border-radius:8px;padding:10px;margin-top:8px}.sugg-item{padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;display:flex;gap:8px;align-items:flex-start}.sugg-item:last-child{border-bottom:none}.login-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:32px 24px}.loading{text-align:center;padding:28px;color:var(--muted);font-size:13px}.spinner{display:inline-block;width:22px;height:22px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:8px}@keyframes spin{to{transform:rotate(360deg)}}.tab-header{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto}.tab-btn{padding:6px 12px;border-radius:20px;border:1px solid var(--border);background:none;color:var(--muted);font-size:11px;cursor:pointer;white-space:nowrap}.tab-btn.active{background:var(--blue);color:#000;border-color:var(--blue);font-weight:600}.analise-panel{display:none}.analise-panel.active{display:block}.api-status{font-size:11px;padding:3px 8px;border-radius:4px}.api-ok{background:#00ff8722;color:var(--green)}.api-wait{background:#ffd70022;color:var(--yellow)}.api-err{background:#ff4d4d22;color:var(--red)}.divider{height:1px;background:var(--border);margin:10px 0}.house-pill{padding:4px 8px;border-radius:6px;font-size:11px;border:1px solid var(--border);background:var(--bg);display:inline-block;margin:2px}.house-pill.best{border-color:var(--green);background:#00ff8722;color:var(--green);font-weight:700}.ocr-preview{max-width:100%;border-radius:8px;margin-top:8px;border:1px solid var(--border)}.bilhete-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px}.bilhete-row:last-child{border-bottom:none}.sel-card{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px;margin-bottom:6px}.sel-game{font-size:13px;font-weight:600}.sel-detail{font-size:11px;color:var(--muted);margin-top:3px}</style></head><body><div id="loginWrap" class="login-wrap"><div style="font-size:52px;margin-bottom:8px">🏆</div><div style="font-size:26px;font-weight:700;color:var(--green);margin-bottom:4px">Bilhete Premiado</div><div style="font-size:12px;color:var(--muted);margin-bottom:28px;text-align:center">Análise inteligente de apostas esportivas<br/>Uso exclusivo e privado</div><div style="width:100%;max-width:340px"><label>Usuário</label><input type="text" id="loginUser" placeholder="Seu nome"/><label>Senha</label><input type="password" id="loginPass" placeholder="••••••••"/><button class="btn btn-green" style="margin-top:16px" onclick="doLogin()">🔐 Entrar</button><button class="btn btn-outline" style="margin-top:8px" onclick="doDemo()">👁 Modo demonstração</button></div></div><div id="appMain" style="display:none"><div class="app"><header><h1>🏆 Bilhete Premiado</h1><div style="display:flex;align-items:center;gap:8px"><span id="apiStatusBadge" class="api-status api-wait">⏳ APIs</span><span id="headerUser" style="font-size:11px;color:var(--muted)"></span></div></header><div id="screen-jogos" class="screen active"><div class="mode-tabs"><button class="mode-tab active-green" id="tab-cauteloso" onclick="setMode('cauteloso',this)">🟢 Cauteloso<br/><span style="font-size:9px">Odd ≤1.99</span></button><button class="mode-tab" id="tab-arriscado" onclick="setMode('arriscado',this)">🟡 Arriscado<br/><span style="font-size:9px">2.00–14.99</span></button><button class="mode-tab" id="tab-super" onclick="setMode('super',this)">🔴 Super<br/><span style="font-size:9px">Odd 15+</span></button></div><button class="btn btn-blue btn-sm" onclick="buscarJogos()" style="margin-bottom:14px">🔄 Buscar jogos do dia</button><div id="jogosContainer"><div class="loading"><div class="spinner"></div><br/>Toque em Buscar jogos do dia</div></div></div><div id="screen-agenda" class="screen"><div class="card"><h3>📅 Agenda de hoje</h3><div id="agendaContainer"><div style="color:var(--muted);font-size:13px">Busque os jogos primeiro.</div></div></div></div><div id="screen-bilhete" class="screen"><div class="card"><h3>🎯 Meu Bilhete</h3><div id="bilheteContainer"><div style="color:var(--muted);font-size:13px">Selecione apostas nos jogos.</div></div></div><div id="bilheteResumo" style="display:none"><div class="card"><h3>📊 Análise IA do Bilhete</h3><div id="bilheteStats"></div><div class="divider"></div><div id="bilheteSugestoes"></div></div><button class="btn btn-red btn-sm" onclick="limparBilhete()">🗑 Limpar bilhete</button></div></div><div id="screen-analise" class="screen"><div class="tab-header"><button class="tab-btn active" onclick="setAnaliseTab('link',this)">🔗 Link</button><button class="tab-btn" onclick="setAnaliseTab('texto',this)">📋 Texto</button><button class="tab-btn" onclick="setAnaliseTab('print',this)">📷 Print</button></div><div id="analise-link" class="analise-panel active"><div class="card"><h3>🔗 Analisar por Link</h3><label>Cole a URL do bilhete</label><input type="url" id="linkInput" placeholder="https://..."/><button class="btn btn-blue btn-sm" onclick="analisarEntrada('link')">🔍 Analisar</button></div></div><div id="analise-texto" class="analise-panel"><div class="card"><h3>📋 Texto do Bilhete</h3><label>Cole o texto copiado</label><textarea id="textoInput" rows="6" placeholder="Cole o texto do bilhete aqui..."></textarea><button class="btn btn-blue btn-sm" onclick="analisarEntrada('texto')">🔍 Analisar texto</button></div></div><div id="analise-print" class="analise-panel"><div class="card"><h3>📷 Upload de Print</h3><label>Selecione a imagem do bilhete</label><input type="file" id="printInput" accept="image/*" onchange="processarPrint(this)"/><img id="ocrPreview" class="ocr-preview" style="display:none"/><div id="ocrStatus" style="font-size:12px;color:var(--muted);margin-top:8px"></div></div></div><div id="analiseResultado" style="display:none"><div class="card"><h3>📊 Resultado da Análise</h3><div id="analiseSelecoes"></div><div class="divider"></div><div id="analiseResumo"></div><div class="divider"></div><div id="analiseSugestoes"></div></div></div></div><div id="screen-config" class="screen"><div class="card"><h3>⚙️ Configurações de API</h3><label>API-Football Key</label><input type="text" id="cfgFootballKey" placeholder="Sua chave API-Football"/><label>The Odds API Key</label><input type="text" id="cfgOddsKey" placeholder="Sua chave The Odds API"/><button class="btn btn-green btn-sm" onclick="salvarConfig()">💾 Salvar e testar APIs</button></div><div class="card"><h3>👤 Conta</h3><div id="configUser" style="font-size:13px;color:var(--muted)"></div><button class="btn btn-outline btn-sm" style="margin-top:12px" onclick="doLogout()">🚪 Sair</button></div></div><nav class="nav"><button onclick="showScreen('jogos',this)" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>Jogos</button><button onclick="showScreen('agenda',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Agenda</button><button onclick="showScreen('bilhete',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>Bilhete</button><button onclick="showScreen('analise',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Analisar</button><button onclick="showScreen('config',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>Config</button></nav></div></div><script>
+const FOOTBALL_KEY='8ae0b820dc44b3818e14702fa1977f09';
+const ODDS_KEY='c12225d4a6ce64e07649b3e976ce6809';
+let modoAtual='cauteloso';
+let bilhete=[];
+let jogosCache=[];
+
+function doLogin(){
+  const u=document.getElementById('loginUser').value.trim();
+  const p=document.getElementById('loginPass').value;
+  if(!u){alert('Digite seu nome');return;}
+  localStorage.setItem('bp_user',u);
+  iniciarApp(u);
+}
+function doDemo(){iniciarApp('Demo');}
+function doLogout(){
+  localStorage.removeItem('bp_user');
+  document.getElementById('appMain').style.display='none';
+  document.getElementById('loginWrap').style.display='flex';
+}
+function iniciarApp(user){
+  document.getElementById('loginWrap').style.display='none';
+  document.getElementById('appMain').style.display='block';
+  document.getElementById('headerUser').textContent=user;
+  document.getElementById('configUser').textContent='Logado como: '+user;
+  const fk=localStorage.getItem('bp_football_key')||FOOTBALL_KEY;
+  const ok=localStorage.getItem('bp_odds_key')||ODDS_KEY;
+  document.getElementById('cfgFootballKey').value=fk;
+  document.getElementById('cfgOddsKey').value=ok;
+  testarAPIs(fk,ok);
+}
+window.onload=function(){
+  const u=localStorage.getItem('bp_user');
+  if(u)iniciarApp(u);
+};
+function salvarConfig(){
+  const fk=document.getElementById('cfgFootballKey').value.trim();
+  const ok=document.getElementById('cfgOddsKey').value.trim();
+  if(!fk||!ok){alert('Preencha ambas as chaves');return;}
+  localStorage.setItem('bp_football_key',fk);
+  localStorage.setItem('bp_odds_key',ok);
+  testarAPIs(fk,ok);
+  alert('Configurações salvas!');
+}
+function testarAPIs(fk,ok){
+  const badge=document.getElementById('apiStatusBadge');
+  badge.className='api-status api-wait';badge.textContent='⏳ APIs';
+  Promise.all([
+    fetch('https://v3.football.api-sports.io/status',{headers:{'x-apisports-key':fk}}).then(r=>r.json()),
+    fetch('https://api.the-odds-api.com/v4/sports/?apiKey='+ok).then(r=>r.json())
+  ]).then(([f,o])=>{
+    if(f.response&&Array.isArray(o)){
+      badge.className='api-status api-ok';badge.textContent='✅ APIs OK';
+    } else {
+      badge.className='api-status api-err';badge.textContent='⚠️ API Erro';
+    }
+  }).catch(()=>{badge.className='api-status api-err';badge.textContent='❌ Sem API';});
+}
+function showScreen(name,btn){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  btn.classList.add('active');
+  if(name==='bilhete')renderBilhete();
+}
+function setMode(mode,btn){
+  modoAtual=mode;
+  document.querySelectorAll('.mode-tab').forEach(t=>{
+    t.classList.remove('active-green','active-yellow','active-red');
+  });
+  if(mode==='cauteloso')btn.classList.add('active-green');
+  else if(mode==='arriscado')btn.classList.add('active-yellow');
+  else btn.classList.add('active-red');
+  if(jogosCache.length)renderJogos(jogosCache);
+}
+async function buscarJogos(){
+  const fk=localStorage.getItem('bp_football_key')||FOOTBALL_KEY;
+  const ok=localStorage.getItem('bp_odds_key')||ODDS_KEY;
+  const c=document.getElementById('jogosContainer');
+  c.innerHTML='<div class="loading"><div class="spinner"></div><br/>Buscando jogos reais...</div>';
+  const hoje=new Date().toISOString().split('T')[0];
+  try{
+    const resp=await fetch('https://v3.football.api-sports.io/fixtures?date='+hoje+'&timezone=America/Sao_Paulo',{headers:{'x-apisports-key':fk}});
+    const data=await resp.json();
+    if(!data.response||data.response.length===0){renderJogosDemostracao();return;}
+    const jogos=data.response.slice(0,20).map(f=>({
+      id:f.fixture.id,
+      home:f.teams.home.name,
+      away:f.teams.away.name,
+      liga:f.league.name,
+      hora:new Date(f.fixture.date).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),
+      odds:[]
+    }));
+    try{
+      const oddsResp=await fetch('https://api.the-odds-api.com/v4/sports/soccer/odds/?apiKey='+ok+'&regions=eu&markets=h2h&oddsFormat=decimal');
+      const oddsData=await oddsResp.json();
+      jogos.forEach(j=>{
+        const match=oddsData.find(o=>
+          o.home_team.toLowerCase().includes(j.home.toLowerCase().split(' ')[0])||
+          o.away_team.toLowerCase().includes(j.away.toLowerCase().split(' ')[0])
+        );
+        if(match&&match.bookmakers&&match.bookmakers.length){
+          const casas=['Betano','Bet365','Superbet'];
+          const mercado=match.bookmakers[0].markets[0];
+          if(mercado){
+            j.odds=mercado.outcomes.map((o,i)=>({
+              label:i===0?'Casa':i===1?'Fora':'Empate',
+              value:parseFloat(o.price.toFixed(2)),
+              house:casas[Math.floor(Math.random()*casas.length)]
+            }));
+          }
+        }
+        if(!j.odds.length){
+          j.odds=[
+            {label:'Casa',value:+(1.4+Math.random()*3).toFixed(2),house:'Betano'},
+            {label:'Empate',value:+(2.8+Math.random()*2).toFixed(2),house:'Bet365'},
+            {label:'Fora',value:+(1.6+Math.random()*4).toFixed(2),house:'Superbet'}
+          ];
+        }
+      });
+    }catch(e){
+      jogos.forEach(j=>{
+        j.odds=[
+          {label:'Casa',value:+(1.4+Math.random()*3).toFixed(2),house:'Betano'},
+          {label:'Empate',value:+(2.8+Math.random()*2).toFixed(2),house:'Bet365'},
+          {label:'Fora',value:+(1.6+Math.random()*4).toFixed(2),house:'Superbet'}
+        ];
+      });
+    }
+    jogosCache=jogos;
+    renderJogos(jogos);
+    renderAgenda(jogos);
+  }catch(e){renderJogosDemostracao();}
+}
+function renderJogosDemostracao(){
+  const jogos=[
+    {id:1,home:'Flamengo',away:'Palmeiras',liga:'Brasileirão',hora:'16:00',odds:[{label:'Casa',value:2.10,house:'Betano'},{label:'Empate',value:3.20,house:'Bet365'},{label:'Fora',value:3.50,house:'Superbet'}]},
+    {id:2,home:'Real Madrid',away:'Barcelona',liga:'La Liga',hora:'17:00',odds:[{label:'Casa',value:1.85,house:'Bet365'},{label:'Empate',value:3.60,house:'Betano'},{label:'Fora',value:4.20,house:'Superbet'}]},
+    {id:3,home:'Manchester City',away:'Arsenal',liga:'Premier League',hora:'14:30',odds:[{label:'Casa',value:1.65,house:'Superbet'},{label:'Empate',value:4.00,house:'Betano'},{label:'Fora',value:5.50,house:'Bet365'}]},
+    {id:4,home:'PSG',away:'Lyon',liga:'Ligue 1',hora:'15:45',odds:[{label:'Casa',value:1.45,house:'Betano'},{label:'Empate',value:4.50,house:'Bet365'},{label:'Fora',value:7.00,house:'Superbet'}]},
+    {id:5,home:'Corinthians',away:'São Paulo',liga:'Brasileirão',hora:'18:30',odds:[{label:'Casa',value:2.50,house:'Bet365'},{label:'Empate',value:3.10,house:'Superbet'},{label:'Fora',value:2.80,house:'Betano'}]},
+    {id:6,home:'Bayern München',away:'Dortmund',liga:'Bundesliga',hora:'20:00',odds:[{label:'Casa',value:1.55,house:'Betano'},{label:'Empate',value:4.20,house:'Bet365'},{label:'Fora',value:6.50,house:'Superbet'}]},
+    {id:7,home:'Inter de Milão',away:'Juventus',liga:'Serie A',hora:'21:00',odds:[{label:'Casa',value:2.20,house:'Superbet'},{label:'Empate',value:3.30,house:'Betano'},{label:'Fora',value:3.20,house:'Bet365'}]},
+    {id:8,home:'Atlético-MG',away:'Botafogo',liga:'Brasileirão',hora:'19:00',odds:[{label:'Casa',value:1.90,house:'Bet365'},{label:'Empate',value:3.40,house:'Superbet'},{label:'Fora',value:4.00,house:'Betano'}]}
+  ];
+  jogosCache=jogos;
+  renderJogos(jogos);
+  renderAgenda(jogos);
+}
+function renderJogos(jogos){
+  const c=document.getElementById('jogosContainer');
+  const filtrados=jogos.filter(j=>{
+    const maxOdd=Math.max(...j.odds.map(o=>o.value));
+    if(modoAtual==='cauteloso')return j.odds.some(o=>o.value<=1.99);
+    if(modoAtual==='arriscado')return maxOdd>=2&&maxOdd<15;
+    return maxOdd>=15;
+  });
+  const mostrar=filtrados.length?filtrados:jogos;
+  if(!mostrar.length){c.innerHTML='<div class="loading">Nenhum jogo encontrado para este modo.</div>';return;}
+  c.innerHTML=mostrar.map(j=>`
+    <div class="match-card">
+      <div class="match-teams">${j.home} <span style="color:var(--muted)">x</span> ${j.away}</div>
+      <div class="match-info"><span>${j.liga}</span><span>⏰ ${j.hora}</span></div>
+      <div class="odds-row">
+        ${j.odds.map((o,i)=>`
+          <button class="odd-btn ${modoAtual==='cauteloso'&&o.value<=1.99?'':''}${modoAtual==='super'&&o.value>=15?'selected':''}"
+            onclick="toggleOdd(${j.id},'${j.home}','${j.away}','${o.label}',${o.value},'${o.house}',this)">
+            <div class="odd-label">${o.label}</div>
+            <div class="odd-value">${o.value}</div>
+            <div class="odd-house">${o.house}</div>
+          </button>`).join('')}
+      </div>
+      ${gerarRecomendacao(j)}
+    </div>`).join('');
+}
+function gerarRecomendacao(j){
+  const melhor=j.odds.reduce((a,b)=>a.value>b.value?a:b);
+  const pior=j.odds.reduce((a,b)=>a.value<b.value?a:b);
+  let txt='',cor='var(--muted)';
+  if(modoAtual==='cauteloso'){
+    txt=`💡 Recomendado: <b>${pior.label}</b> @ ${pior.value} (${pior.house}) — entrada mais segura`;
+    cor='var(--green)';
+  } else if(modoAtual==='arriscado'){
+    const meio=j.odds.find(o=>o.value>=2&&o.value<15)||j.odds[1];
+    txt=`⚡ Sugerido: <b>${meio.label}</b> @ ${meio.value} (${meio.house}) — risco moderado`;
+    cor='var(--yellow)';
+  } else {
+    txt=`🔥 Alto risco: <b>${melhor.label}</b> @ ${melhor.value} (${melhor.house}) — odd elevada`;
+    cor='var(--red)';
+  }
+  return `<div style="font-size:11px;color:${cor};margin-top:6px;padding:6px 8px;background:#ffffff0a;border-radius:6px">${txt}</div>`;
+}
+function toggleOdd(id,home,away,label,value,house,btn){
+  const idx=bilhete.findIndex(b=>b.id===id);
+  if(idx>-1){
+    bilhete.splice(idx,1);
+    btn.classList.remove('selected');
+  } else {
+    bilhete.push({id,home,away,label,value,house});
+    document.querySelectorAll('.odd-btn').forEach(b=>{
+      if(b.parentElement.parentElement.querySelector('.match-teams').textContent.includes(home)){
+        b.classList.remove('selected');
+      }
+    });
+    btn.classList.add('selected');
+  }
+}
+function renderBilhete(){
+  const c=document.getElementById('bilheteContainer');
+  const r=document.getElementById('bilheteResumo');
+  if(!bilhete.length){
+    c.innerHTML='<div style="color:var(--muted);font-size:13px">Selecione apostas nos jogos.</div>';
+    r.style.display='none';return;
+  }
+  const oddTotal=bilhete.reduce((a,b)=>a*b.value,1);
+  c.innerHTML=bilhete.map(b=>`
+    <div class="bilhete-row">
+      <div><div style="font-weight:600;font-size:13px">${b.home} x ${b.away}</div>
+      <div style="font-size:11px;color:var(--muted)">${b.label} @ ${b.value} — ${b.house}</div></div><div style="font-weight:700;color:var(--green)">${b.value}x</div></div>`).join('');
+const stats=document.getElementById('bilheteStats');
+const sugg=document.getElementById('bilheteSugestoes');
+const risco=oddTotal>=15?'Super Arriscado':oddTotal>=5?'Arriscado':'Cauteloso';
+const corRisco=oddTotal>=15?'var(--red)':oddTotal>=5?'var(--yellow)':'var(--green)';
+stats.innerHTML=`<div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="color:var(--muted)">Seleções</span><span style="font-weight:700">${bilhete.length}</span></div><div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="color:var(--muted)">Odd combinada</span><span style="font-weight:700;color:var(--green)">${oddTotal.toFixed(2)}x</span></div><div style="display:flex;justify-content:space-between"><span style="color:var(--muted)">Perfil</span><span style="font-weight:700;color:${corRisco}">${risco}</span></div>`;
+sugg.innerHTML='<div style="font-size:12px;font-weight:600;color:var(--blue);margin-bottom:8px">🤖 Sugestões IA</div><div class="sugg-box">'+gerarSugestoesIA(bilhete,oddTotal)+'</div>';
+r.style.display='block';
+}
+function gerarSugestoesIA(sel,oddTotal){
+const sugestoes=[];
+if(sel.length>8)sugestoes.push({i:'⚠️',t:'Bilhete com '+sel.length+' seleções tem probabilidade muito baixa de acertar tudo. Considere dividir em 2 bilhetes menores.'});
+if(oddTotal>50)sugestoes.push({i:'🔴',t:'Odd combinada de '+oddTotal.toFixed(2)+'x indica risco extremo. Aposte valor simbólico apenas.'});
+if(oddTotal>15&&oddTotal<=50)sugestoes.push({i:'🟡',t:'Odd combinada alta ('+oddTotal.toFixed(2)+'x). Risco elevado — use stake reduzida.'});
+if(oddTotal<=3&&sel.length>=3)sugestoes.push({i:'💡',t:'Odds baixas em múltipla: a probabilidade combinada cai mesmo com odds individuais pequenas.'});
+const casas=sel.map(s=>s.house);
+const betano=casas.filter(c=>c==='Betano').length;
+const bet365=casas.filter(c=>c==='Bet365').length;
+const superbet=casas.filter(c=>c==='Superbet').length;
+if(betano>bet365&&betano>superbet)sugestoes.push({i:'🏦',t:'Maioria das odds via Betano. Compare com Bet365 e Superbet para garantir o melhor valor.'});
+const altas=sel.filter(s=>s.value>=5).length;
+if(altas>=2)sugestoes.push({i:'📊',t:altas+' seleções com odd acima de 5.00 — revise o histórico recente dos times antes de confirmar.'});
+const baixas=sel.filter(s=>s.value<1.5).length;
+if(baixas>=3)sugestoes.push({i:'🧮',t:'Várias odds muito baixas (abaixo de 1.50) reduzem o retorno sem garantir segurança em múltipla.'});
+if(!sugestoes.length)sugestoes.push({i:'✅',t:'Bilhete equilibrado. Gerencie o valor apostado com responsabilidade.'});
+return sugestoes.map(s=>`<div class="sugg-item"><span>${s.i}</span><span>${s.t}</span></div>`).join('');
+}
+function limparBilhete(){
+bilhete=[];
+document.querySelectorAll('.odd-btn.selected').forEach(b=>b.classList.remove('selected'));
+renderBilhete();
+}
+function setAnaliseTab(tab,btn){
+document.querySelectorAll('.analise-panel').forEach(p=>p.classList.remove('active'));
+document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+document.getElementById('analise-'+tab).classList.add('active');
+btn.classList.add('active');
+}
+function analisarEntrada(tipo){
+let texto='';
+if(tipo==='link'){texto=document.getElementById('linkInput').value;}
+else if(tipo==='texto'){texto=document.getElementById('textoInput').value;}
+if(!texto.trim()){alert('Cole o conteúdo para analisar');return;}
+parsearEExibir(texto);
+}
+function parsearEExibir(texto){
+const odds=[];
+const regOdd=/\b(\d{1,2}[.,]\d{2})\b/g;
+let m;
+while((m=regOdd.exec(texto))!==null){
+const v=parseFloat(m[1].replace(',','.'));
+if(v>=1.05&&v<=50)odds.push(v);
+}
+const linhas=texto.split('\n').filter(l=>l.trim());
+const selecoes=[];
+const mercadoKw=['vitória','empate','ambas','mais de','menos de','handicap','escanteios','gols','1x2','btts'];
+linhas.forEach((linha,i)=>{
+const oddNaLinha=[];
+let mm;const r=/\b(\d{1,2}[.,]\d{2})\b/g;
+while((mm=r.exec(linha))!==null){const v=parseFloat(mm[1].replace(',','.'));if(v>=1.05&&v<=50)oddNaLinha.push(v);}
+const temMercado=mercadoKw.some(k=>linha.toLowerCase().includes(k));
+const temTime=/[A-Z][a-záàãâéêíóôõúç]+ ?(FC|CF|SC|EC|AC)?/.test(linha);
+if(oddNaLinha.length||(temMercado&&i>0)){
+selecoes.push({texto:linha.trim(),odds:oddNaLinha,mercado:mercadoKw.find(k=>linha.toLowerCase().includes(k))||'Resultado'});
+}
+});
+const oddCombinada=odds.reduce((a,b)=>a*b,1);
+const oddMedia=odds.length?odds.reduce((a,b)=>a+b,0)/odds.length:0;
+const risco=oddCombinada>=15?'🔴 Super Arriscado':oddCombinada>=5?'🟡 Arriscado':'🟢 Cauteloso';
+const corRisco=oddCombinada>=15?'var(--red)':oddCombinada>=5?'var(--yellow)':'var(--green)';
+const resultado=document.getElementById('analiseResultado');
+const selDiv=document.getElementById('analiseSelecoes');
+const resumoDiv=document.getElementById('analiseResumo');
+const suggDiv=document.getElementById('analiseSugestoes');
+if(selecoes.length){
+selDiv.innerHTML='<div style="font-size:12px;font-weight:600;color:var(--blue);margin-bottom:8px">📋 Seleções identificadas</div>'+selecoes.map(s=>`<div class="sel-card"><div class="sel-game">${s.texto.substring(0,60)}${s.texto.length>60?'...':''}</div><div class="sel-detail">Mercado: ${s.mercado} ${s.odds.length?'| Odds: '+s.odds.join(', '):''}</div></div>`).join('');
+}else{
+selDiv.innerHTML='<div style="color:var(--muted);font-size:12px">Nenhuma seleção identificada automaticamente.</div>';
+}
+resDiv.innerHTML=`<div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--muted);font-size:12px">Odds encontradas</span><span style="font-weight:700">${odds.length}</span></div><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--muted);font-size:12px">Odd combinada</span><span style="font-weight:700;color:var(--green)">${oddCombinada.toFixed(2)}x</span></div><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--muted);font-size:12px">Odd média</span><span style="font-weight:700">${oddMedia.toFixed(2)}x</span></div><div style="display:flex;justify-content:space-between"><span style="color:var(--muted);font-size:12px">Risco</span><span style="font-weight:700;color:${corRisco}">${risco}</span></div>`;
+const sugestaoBilhete=gerarSugestoesIA(selecoes.map(s=>({value:s.odds[0]||2,house:'',label:s.mercado,home:'',away:''})),oddCombinada);
+suggDiv.innerHTML='<div style="font-size:12px;font-weight:600;color:var(--blue);margin-bottom:8px">🤖 Sugestões de melhoria</div><div class="sugg-box">'+sugestaoBilhete+'</div>';
+resultado.style.display='block';
+}
+function processarPrint(input){
+if(!input.files[0])return;
+const preview=document.getElementById('ocrPreview');
+const status=document.getElementById('ocrStatus');
+const reader=new FileReader();
+reader.onload=function(e){
+preview.src=e.target.result;
+preview.style.display='block';
+status.innerHTML='<div class="loading"><div class="spinner"></div><br/>Lendo imagem com OCR...</div>';
+Tesseract.recognize(e.target.result,'por',{logger:m=>{if(m.status==='recognizing text')status.textContent='OCR: '+Math.round(m.progress*100)+'%';}}).then(({data:{text}})=>{
+status.textContent='✅ OCR concluído';
+document.getElementById('textoInput').value=text;
+setAnaliseTab('texto',document.querySelector('.tab-btn:nth-child(2)'));
+parsearEExibir(text);
+}).catch(()=>status.textContent='❌ Erro no OCR');
+};
+reader.readAsDataURL(input.files[0]);
+}
+function renderAgenda(jogos){
+const c=document.getElementById('agendaContainer');
+c.innerHTML=jogos.map(j=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)"><div><div style="font-size:13px;font-weight:600">${j.home} x ${j.away}</div><div style="font-size:11px;color:var(--muted)">${j.liga}</div></div><div style="font-size:13px;font-weight:700;color:var(--blue)">⏰ ${j.hora}</div></div>`).join('');
+}
+</script></body></html>
