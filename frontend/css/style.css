@@ -1,0 +1,103 @@
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#0a0e1a;color:#fff;min-height:100vh;overflow-x:hidden}
+#loginArea{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px;background:linear-gradient(135deg,#0a0e1a,#1a2340)}
+.login-box{background:#131929;border-radius:20px;padding:40px 30px;width:100%;max-width:380px;box-shadow:0 8px 40px rgba(0,212,255,.15);border:1px solid #1e2d4a}
+.login-box h1{text-align:center;font-size:1.9rem;margin-bottom:6px;background:linear-gradient(90deg,#00d4ff,#7b2ff7);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.login-box p{text-align:center;color:#8899aa;margin-bottom:28px;font-size:.9rem}
+.login-box input{width:100%;padding:14px 16px;border-radius:12px;border:1.5px solid #1e2d4a;background:#0d1120;color:#fff;font-size:1rem;margin-bottom:14px;outline:none;transition:border-color .2s}
+.login-box input:focus{border-color:#00d4ff}
+.login-box button{width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(90deg,#00d4ff,#7b2ff7);color:#fff;font-size:1.1rem;font-weight:700;cursor:pointer;transition:opacity .2s}
+.login-box button:active{opacity:.8}
+.login-hint{text-align:center;color:#556;font-size:.75rem;margin-top:14px}
+#appMain{display:none;padding-bottom:75px}
+.topbar{background:#131929;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #1e2d4a;position:sticky;top:0;z-index:100}
+.topbar h2{font-size:1.1rem;background:linear-gradient(90deg,#00d4ff,#7b2ff7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:800}
+.topbar span{color:#8899aa;font-size:.85rem}
+.btn-logout{background:none;border:1px solid #ff4466;color:#ff4466;border-radius:8px;padding:5px 12px;cursor:pointer;font-size:.8rem}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#131929;border-top:2px solid #1e2d4a;display:flex;z-index:200}
+.nav-btn{flex:1;padding:10px 0;border:none;background:none;color:#8899aa;font-size:.6rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;transition:color .2s;font-weight:600;position:relative}
+.nav-btn .nav-icon{font-size:1.3rem}
+.nav-btn.active{color:#00d4ff}
+.badge{position:absolute;top:6px;right:12px;background:#ff4466;color:#fff;border-radius:50%;width:16px;height:16px;font-size:.6rem;display:flex;align-items:center;justify-content:center;font-weight:800}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.section-title{font-size:1rem;font-weight:700;color:#00d4ff;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.dashboard-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.stat-card{background:#131929;border-radius:16px;padding:18px 14px;border:1.5px solid #1e2d4a;text-align:center;transition:border-color .2s}
+.stat-card:hover{border-color:#00d4ff44}
+.stat-label{font-size:.72rem;color:#8899aa;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
+.stat-value{font-size:1.3rem;font-weight:800;color:#00d4ff}
+.perfil-grid{display:flex;flex-direction:column;gap:10px}
+.perfil-opcao{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;border:1.5px solid #1e2d4a;cursor:pointer;transition:all .2s}
+.perfil-opcao.active{border-color:#00d4ff;background:#00d4ff11}
+.perfil-opcao:active{transform:scale(.98)}
+.perfil-icon{font-size:1.8rem}
+.perfil-nome{font-size:.95rem;font-weight:700}
+.perfil-desc{font-size:.75rem;color:#8899aa;margin-top:2px}
+.filtro-liga{display:flex;gap:8px;overflow-x:auto;padding-bottom:10px;margin-bottom:14px;scrollbar-width:none}
+.filtro-liga::-webkit-scrollbar{display:none}
+.filtros-historico{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.filtro-btn{padding:8px 16px;border-radius:20px;border:1.5px solid #1e2d4a;background:#131929;color:#8899aa;font-size:.75rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0}
+.filtro-btn.active{background:linear-gradient(90deg,#00d4ff,#7b2ff7);border-color:transparent;color:#fff}
+.jogo-card{background:#131929;border-radius:16px;padding:16px;margin-bottom:12px;border:1.5px solid #1e2d4a;cursor:pointer;transition:all .2s}
+.jogo-card:hover{border-color:#00d4ff55;box-shadow:0 4px 20px rgba(0,212,255,.08)}
+.jogo-card:active{transform:scale(.99)}
+.jogo-liga{font-size:.68rem;color:#7b2ff7;font-weight:700;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.jogo-times{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.time-info{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1}
+.time-bandeira{font-size:2rem;line-height:1}
+.time-nome{font-size:.75rem;font-weight:700;text-align:center;color:#dde;line-height:1.3}
+.jogo-vs{font-size:1.2rem;font-weight:900;color:#00d4ff;padding:0 6px}
+.jogo-hora{text-align:center;margin-top:10px;font-size:.72rem;color:#8899aa;background:#0d1120;border-radius:8px;padding:4px 10px;display:inline-block}
+.jogo-footer{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.jogo-odds{display:flex;gap:8px;flex:1}
+.odd-btn{flex:1;padding:8px 4px;border-radius:10px;border:1.5px solid #1e2d4a;background:#0d1120;color:#fff;font-size:.72rem;text-align:center;cursor:pointer;transition:all .2s}
+.odd-btn:hover{border-color:#00d4ff}
+.odd-btn:active{transform:scale(.96)}
+.odd-btn.selecionado{background:linear-gradient(90deg,#00d4ff22,#7b2ff722);border-color:#00d4ff;color:#00d4ff}
+.odd-label{font-size:.6rem;color:#8899aa;display:block;margin-bottom:2px}
+.odd-valor{font-weight:800;font-size:.95rem}
+.bilhete-vazio{text-align:center;padding:50px 20px;color:#8899aa}
+.bilhete-vazio .icon{font-size:3.5rem;margin-bottom:12px}
+.aposta-item{background:#131929;border-radius:14px;padding:14px;margin-bottom:10px;border:1.5px solid #1e2d4a;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.aposta-info{flex:1}
+.aposta-jogo{font-size:.75rem;color:#8899aa;margin-bottom:4px}
+.aposta-mercado{font-size:.9rem;font-weight:700;color:#fff}
+.aposta-odd{font-size:1.1rem;font-weight:900;color:#00d4ff}
+.aposta-remove{background:none;border:none;color:#ff4466;font-size:1.3rem;cursor:pointer;padding:4px 8px}
+.bilhete-resumo{background:#131929;border-radius:16px;padding:16px;margin-top:14px;border:1.5px solid #1e2d4a}
+.resumo-linha{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #1e2d4a;font-size:.85rem}
+.resumo-linha:last-child{border:none}
+.btn-analisar{width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(90deg,#00d4ff,#7b2ff7);color:#fff;font-size:1rem;font-weight:700;cursor:pointer;transition:opacity .2s}
+.btn-analisar:active{opacity:.8}
+.btn-limpar{width:100%;padding:12px;border-radius:12px;border:1.5px solid #ff4466;background:transparent;color:#ff4466;font-weight:700;cursor:pointer;margin-top:10px;transition:background .2s}
+.btn-limpar:active{background:#ff446622}
+.btn-salvar{width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(90deg,#00d4ff,#7b2ff7);color:#fff;font-weight:700;cursor:pointer;margin-top:4px;font-size:.95rem}
+.config-item{background:#131929;border-radius:14px;padding:16px;margin-bottom:12px;border:1.5px solid #1e2d4a}
+.config-item label{display:block;font-size:.8rem;color:#8899aa;margin-bottom:8px;font-weight:600}
+.config-item input{width:100%;padding:12px;border-radius:10px;border:1.5px solid #1e2d4a;background:#0d1120;color:#fff;font-size:.85rem;outline:none}
+.config-item input:focus{border-color:#00d4ff}
+.analise-area{background:#131929;border-radius:16px;padding:20px;margin-bottom:14px;border:1.5px solid #1e2d4a}
+.analise-area h3{font-size:1rem;font-weight:700;color:#00d4ff;margin-bottom:14px}
+.analise-input{width:100%;padding:12px;border-radius:12px;border:1.5px solid #1e2d4a;background:#0d1120;color:#fff;font-size:.9rem;min-height:100px;resize:vertical;outline:none;margin-bottom:12px;font-family:inherit}
+.analise-input:focus{border-color:#00d4ff}
+.upload-btn{display:block;width:100%;padding:18px;border-radius:12px;border:1.5px dashed #1e2d4a;background:#0d1120;color:#8899aa;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:12px;font-size:.9rem}
+.upload-btn:hover{border-color:#00d4ff;color:#00d4ff}
+.resultado-analise{background:#0d1120;border-radius:14px;padding:16px;margin-top:14px;border:1.5px solid #1e2d4a;display:none}
+.resultado-analise.show{display:block}
+.analise-secao{margin-bottom:16px}
+.analise-secao h4{font-size:.82rem;color:#7b2ff7;font-weight:700;margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em}
+.analise-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #1e2d4a;font-size:.84rem;line-height:1.4}
+.analise-item:last-child{border:none}
+.analise-icone{font-size:1.1rem;flex-shrink:0;margin-top:1px}
+.nivel-bar{height:8px;border-radius:4px;margin-top:8px;overflow:hidden;background:#1e2d4a}
+.nivel-fill{height:100%;border-radius:4px;transition:width .8s ease}
+.historico-card{background:#131929;border-radius:14px;padding:14px;margin-bottom:10px;border:1.5px solid #1e2d4a}
+.historico-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.historico-data{font-size:.72rem;color:#8899aa}
+.historico-resultado{font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:12px}
+.resultado-green{background:#00ff8822;color:#00ff88;border:1px solid #00ff88}
+.resultado-red{background:#ff446622;color:#ff4466;border:1px solid #ff4466}
+.resultado-pending{background:#ffcc0022;color:#ffcc00;border:1px solid #ffcc00}
+.historico-info{font-size:.85rem;color:#ccd}
+.historico-lucro{font-size:.9rem;font-weight:700;margin-top:6px}
